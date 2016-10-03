@@ -1,0 +1,26 @@
+<h1>
+  NG2-Smoothie
+</h1>
+
+<de-ng2-smoothie #chart
+  height="250"
+  delay="1000"
+  [isVisible]="charIsVisible"
+  [extraOpts]="extraOpts"
+  >
+</de-ng2-smoothie>
+
+<label>Chart is visible:</label>
+<input type="checkbox" [(ngModel)]="charIsVisible" />
+<button type="button"
+    (click)="toggleLine(1)"
+    (mouseover)="areaFill(1, true)"
+    (mouseleave)="areaFill(1, false)">
+  Toggle Line 1
+</button>
+<button type="button"
+    (click)="toggleLine(2)"
+    (mouseover)="areaFill(2, true)"
+    (mouseleave)="areaFill(2, false)">
+  Toggle Line 2
+</button>
