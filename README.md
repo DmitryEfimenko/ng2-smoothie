@@ -5,7 +5,10 @@ Angular2 wrapper for Smoothie.js providing few more additional features
 `npm i --save ng2-smoothie`
 
 ## Eample of usage:
-TODO
+my-component.ts:
+```typescript
+```
+
 
 ## Develop
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.16.
