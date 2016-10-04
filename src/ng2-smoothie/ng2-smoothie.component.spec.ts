@@ -128,6 +128,7 @@ describe('Component: Ng2Smoothie', () => {
     let millisPerPixel1 = o.millisPerPixel;
     let millisPerLine1 = o.grid.millisPerLine;
     let tickTime = component.getTimeToPassChart();
+    console.log(tickTime);
     tick(tickTime);
     expect(o.millisPerPixel).toBe(millisPerPixel1 * 2);
     expect(o.grid.millisPerLine).toBe(millisPerLine1 * 2);
