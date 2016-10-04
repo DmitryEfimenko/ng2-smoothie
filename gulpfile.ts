@@ -11,7 +11,7 @@ gulp.task('compile', () => {
     declaration: true,
     removeComments: true,
     noResolve: false,
-    module: 'commonjs',
+    module: 'es6',
     target: 'es5',
     emitDecoratorMetadata: true,
     experimentalDecorators: true,
