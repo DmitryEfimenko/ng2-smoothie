@@ -48,13 +48,6 @@ describe('Component: Ng2Smoothie', () => {
     expectNthLineSeriesSetLengthToBe(0, 2);
   });
 
-  it('addLineData() should set strokeStyle to be invisible if chart is invisible', () => {
-    component.isVisible = false;
-    fixture.detectChanges();
-    component.addLineData(1, new Date(), 1);
-    expect(getSeriesSet(0).options.strokeStyle).toBeUndefined();
-  });
-
   it('should show/hide host based on Input() isVisible', () => {
     component.isVisible = false;
     // have to call ngOnChanges due to bug: https://github.com/angular/angular/issues/9866

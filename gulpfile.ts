@@ -1,6 +1,6 @@
 import * as gulp from 'gulp';
 import * as ts from 'gulp-typescript';
-import * as del from 'del'; 
+import * as del from 'del';
 
 gulp.task('clean', function (cb) {
     del(['lib/']).then(path => { cb(); });
@@ -9,15 +9,14 @@ gulp.task('clean', function (cb) {
 gulp.task('compile', () => {
   let proj = ts.createProject(<any>{
     declaration: true,
-    removeComments: true,
-    noResolve: false,
-    module: 'es6',
-    target: 'es5',
     emitDecoratorMetadata: true,
     experimentalDecorators: true,
     lib: ['es6', 'dom'],
+    module: 'commonjs',
+    removeComments: true,
+    target: 'es5',
     typeRoots: [
-      '../node_modules/@types'
+      './node_modules/@types'
     ]
   });
 

@@ -1,4 +1,5 @@
 import { ITimeSeriesPresentationOptions, TimeSeries } from 'smoothie';
+import { IExtraOpts } from './interfaces';
 
 export class SmoothieLine {
   series: TimeSeries;
@@ -6,11 +7,10 @@ export class SmoothieLine {
   _strokeStyle: string;
   _fillStyle: string;
 
-  private allData: { time: Date, val: number }[] = [];
-  private delta = 1;
-  private addDataIx = 0;
+  private allowAddData = true;
+  private timeBetweenDatapoints: number = undefined;
 
-  constructor(private index: number, public options: ITimeSeriesPresentationOptions) {
+  constructor(private index: number, public options: ITimeSeriesPresentationOptions, private extraOpts: IExtraOpts) {
     if (!this.options.strokeStyle) {
       this.options.strokeStyle = rgba(generateColor(this.index), 0.8);
     }
@@ -24,25 +24,37 @@ export class SmoothieLine {
   }
 
   addData(time: Date, val: number) {
-    this.allData.push({ time: time, val: val });
-    this.addDataIx = this.addDataIx + 1;
-    if (this.addDataIx === this.delta) {
+    if (this.allowAddData) {
       this.series.append(time.getTime(), val);
-      this.addDataIx = 0;
+      this.disableAddingDataForTime();
     }
   }
 
   sampleData(datapointsLimit: number) {
-    let dataLength = this.allData.length;
+    let allData: number[][] = (<any>this.series).data;
+    let dataLength = allData.length;
     if (dataLength > datapointsLimit) {
-      this.delta = Math.floor(dataLength / datapointsLimit) * 2;
-
+      let delta = Math.floor(dataLength / datapointsLimit) * 2;
       this.series.clear();
-      for (let i = 0, l = dataLength; i < l; i = i + this.delta) {
-        let d = this.allData[i];
-        this.series.append(d.time.getTime(), d.val);
+      for (let i = 0, l = dataLength; i < l; i = i + delta) {
+        let d = allData[i];
+        this.series.append(d[0], d[1]);
       }
-      this.addDataIx = 0;
+
+      let newData = (<any>this.series).data;
+      let firstP = newData[0][0];
+      let secondP = newData[1][0];
+      this.timeBetweenDatapoints = secondP - firstP - 10;
+      this.disableAddingDataForTime();
+    }
+  }
+
+  private disableAddingDataForTime() {
+    if (this.timeBetweenDatapoints !== undefined) {
+      this.allowAddData = false;
+      setTimeout(() => {
+        this.allowAddData = true;
+      }, this.timeBetweenDatapoints);
     }
   }
 }
